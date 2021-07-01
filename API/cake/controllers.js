@@ -1,6 +1,10 @@
 let cakes = require("../../cakes");
 const slugify = require("slugify");
 
+
+//=============== IMPORTANT ===============\\
+///////// ALWAYS PUT REQ BEFORE RES \\\\\\\\\\
+
 exports.cakeFetch = (req,res) => {
     res.json(cakes);
 };
@@ -28,24 +32,20 @@ exports.createCake = (req,res) => {
         slug,
         ...req.body,
     };
-
     cakes.push(newCake);
     res.status(201).json(newCake);
 
 };
-// Update Route
+
 exports.updateCake = (req, res) => {
     const { cakeId } = req.params;
-    // check if cookie exists
     const foundCake = cakes.find((cake) => cake.id === +cakeId);
-    // if cookie exists:
+   
     if (foundCake) {
-      // update cookie
       for (const key in req.body) foundCake[key] = req.body[key];
       foundCake.slug = slugify(foundCake.name, { lower: true });
       res.status(204).end();
     } else {
-      //  give back response 404 Cookie Not Found
       res.status(404).json({ message: "Cake Not Found." });
     }
   };
