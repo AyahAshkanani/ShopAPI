@@ -20,8 +20,6 @@ exports.deleteCake = (res,req) => {
     
 };
 
-
-// Create Route
 exports.createCake = (req,res) => {
     const id = cakes.length +1;
     const slug = slugify(req.body.name, {lower : true});
@@ -51,8 +49,3 @@ exports.updateCake = (req, res) => {
       res.status(404).json({ message: "Cake Not Found." });
     }
   };
-
-
-app.listen(8000, () => {
-    console.log("The application is running on localhost:8000");
-  });
