@@ -1,5 +1,5 @@
 const express = require("express");
-const {cakeFetch,createCake,updateCake,deleteCake} = require("./controllers");
+const {cakeFetch,deleteCake,createCake,updateCake} = require("./controllers");
 
 const router = express.Router();
 

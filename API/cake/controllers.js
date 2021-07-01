@@ -5,8 +5,8 @@ exports.cakeFetch = (req,res) => {
     res.json(cakes);
 };
 
-exports.deleteCake = (res,req) => {
-    const {cakeId} = req.params;
+exports.deleteCake = (req,res) => {
+    const { cakeId } = req.params;
     const foundCake = cakes.find((cake)=> cake.id === +cakeId);
 
     if(foundCake){ 
