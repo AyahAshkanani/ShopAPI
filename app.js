@@ -1,34 +1,18 @@
 // import express from "express";
 const express = require("express");
-let cakes = require("./cakes");
+// let cakes = require("./cakes");
 const cors = require("cors"); // yarn add cors
-
+const bodyParser = require("body-parser");
+const cakeRoutes = require("./API/cake/routes");
+// const slugify = require("slugify");
 const app = express();
 
 // Middleware
 app.use(cors());
+app.use(bodyParser.json());
 
-// Routes
-app.get("/cakes", (req, res) => {
-  // JSON = JavaScript Object Notation
-  res.json(cakes);
-});
-
-app.delete("/cakes/:cakeId",(req,res) => {
-    const{cakeId} = req.params;
-    const foundCake = cakes.find((cake)=> cake.id === +cakeId);
-
-    if(foundCake){ 
-        cakes = cakes.filter((cake)=> cake.id !== +cakeId);
-        res.status(204).end();
-    }
-    else{
-        res.status(404).json({message : "cake not found"});
-    }
-   
-    
-});
-
+//=============== Cookie Routes ===============\\
+app.use("/cakes", cakeRoutes);
 
 app.listen(8000, () => {
     console.log("The application is running on localhost:8000");
