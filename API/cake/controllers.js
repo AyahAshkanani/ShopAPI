@@ -20,6 +20,7 @@ exports.deleteCake = (req,res) => {
     else{
         res.status(404).json({message : "cake not found"});
     }
+    
    
     
 };
