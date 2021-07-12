@@ -1,10 +1,10 @@
 //import db model
-const {Cake} = require("../../db/models");
+const { Cake } = require("../../db/models");
 
 
 exports.fetchCake = async (cakeId, next) =>{
     try{
-        const cake = await cake.findByPk(cakeId);
+        const cake = await Cake.findByPk(cakeId);
     return cake;
 }catch(error){
     next(error);
@@ -32,6 +32,14 @@ exports.deleteCake = async (req,res, next) => {
     next(error);
     }
 };
+exports.updateCake = async (req, res, next) => {
+    try{ 
+        await req.cake.update(req.body);
+        res.status(204).end();
+     }catch(error){
+         next(error);
+     }};
+
 exports.createCake = async (req,res, next) => {
    try{
        const newCake = await Cake.create(req.body);
@@ -40,10 +48,3 @@ exports.createCake = async (req,res, next) => {
     next(error);
 }};
 
-exports.updateCake = async (req, res, next) => {
-   try{ 
-       await req.cake.update(req.body);
-       res.status(204).end();
-    }catch(error){
-        next(error);
-    }};
