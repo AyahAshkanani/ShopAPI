@@ -1,5 +1,5 @@
 const express = require("express");
-const {cakeFetch,deleteCake,createCake,updateCake, fetchCake,} = require("./controllers");
+const {cakeFetch,deleteCake,updateCake, fetchCake,} = require("./controllers");
 
 const router = express.Router();
 const multer = require("multer");
@@ -34,8 +34,6 @@ router.get("/", cakeFetch);
 //Delete route
 router.delete("/:cakeId", deleteCake);
 
-//Create route
-router.post("/",upload.single("image"), createCake);
 
 //Update route
 router.put("/:cakeId",upload.single("image"),updateCake);

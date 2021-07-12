@@ -1,5 +1,5 @@
 //import db model
-const { Cake } = require("../../db/models");
+const { Cake , Bakery} = require("../../db/models");
 
 
 exports.fetchCake = async (cakeId, next) =>{
@@ -17,22 +17,18 @@ exports.cakeFetch = async (req,res, next) => {
     //findAll is to print all cakes
    try{ const cakes = await Cake.findAll({
     //to print specific things we use attributes x//{exclude:[]} is to print everything except
-        attributes : {exclude:["createdAt", "updatedAt"]},
+        attributes : {exclude:["createdAt", "updatedAt", ]},
+        include : {
+            model: Bakery,
+            as: "bakery",
+            attributes: ["name"]
+        }
     });
     res.json(cakes);
 } catch(error){
     next(error);
 }};
 
-exports.createCake = async (req,res, next) => {
-    try{
-       if(req.file) req.body.image = `http://${req.get("host")}/${req.file.path}`;
-        const newCake = await Cake.create(req.body);
-     res.status(201).json(newCake);
- }catch(error){
-     next(error);
- }};
- 
  
 exports.deleteCake = async (req,res, next) => {
    try{ 

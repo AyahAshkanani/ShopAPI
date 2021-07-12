@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors"); // yarn add cors
 const bodyParser = require("body-parser");
 const cakeRoutes = require("./API/cake/routes");
+const bakeryRoutes = require("./API/bakery/routes");
 
 
 //database
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 
 //=============== Cookie Routes ===============\\
 app.use("/cakes", cakeRoutes);
+app.use("/bakeries", bakeryRoutes);
 //to be able to access media and show the photos
 app.use("/media",express.static("media"));
 

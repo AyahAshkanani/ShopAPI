@@ -34,4 +34,8 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+//MODEL RELATIONSHIPS
+db.Bakery.hasMany(db.Cake, {foreignKey : "bakeryId",  as: "cakes", aloowNull: false}); //many to one relation with Cake
+
+db.Cake.belongsTo(db.Bakery, {foreignKey : "bakeryId", as: "bakery"});
 module.exports = db;
