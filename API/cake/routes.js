@@ -2,6 +2,7 @@ const express = require("express");
 const {cakeFetch,deleteCake,createCake,updateCake, fetchCake,} = require("./controllers");
 
 const router = express.Router();
+const multer = require("multer");
 
 //param middleware
 router.param("cakeId", async (req, res, next, cakeId)=> {
@@ -17,6 +18,16 @@ else{
 }
 });
 
+//multer
+const storage = multer.diskStorage({
+    destination:"./media",
+    filename:(req,file,cb)=>(
+        cb(null,`${Date.now()}${file.originalname}`)
+    ),
+
+});
+const upload = multer({storage});
+
 //List route
 router.get("/", cakeFetch);
 
@@ -24,10 +35,10 @@ router.get("/", cakeFetch);
 router.delete("/:cakeId", deleteCake);
 
 //Create route
-router.post("/", createCake);
+router.post("/",upload.single("image"), createCake);
 
 //Update route
-router.put("/:cakeId", updateCake);
+router.put("/:cakeId",upload.single("image"),updateCake);
 
 
 module.exports = router;

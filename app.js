@@ -17,6 +17,8 @@ app.use(bodyParser.json());
 
 //=============== Cookie Routes ===============\\
 app.use("/cakes", cakeRoutes);
+//to be able to access media and show the photos
+app.use("/media",express.static("media"));
 
 //error middleware
 app.use((err,req,res,next)=>{
@@ -31,7 +33,7 @@ app.use((req,res,next) => {
   const run = async() => {
     try{
       //{force:true } do it once inside sync()
-      await db.sequelize.sync();
+      await db.sequelize.sync({alter : true});
     console.log("Connection to the database successful!");
     app.listen(8000, () => {
       console.log("The application is running on localhost:8000");
