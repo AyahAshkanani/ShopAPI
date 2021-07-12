@@ -1,52 +1,49 @@
-let cakes = require("../../cakes");
-const slugify = require("slugify");
+//import db model
+const {Cake} = require("../../db/models");
 
+
+exports.fetchCake = async (cakeId, next) =>{
+    try{
+        const cake = await cake.findByPk(cakeId);
+    return cake;
+}catch(error){
+    next(error);
+}};
 
 //=============== IMPORTANT ===============\\
 ///////// ALWAYS PUT REQ BEFORE RES \\\\\\\\\\
 
-exports.cakeFetch = (req,res) => {
+exports.cakeFetch = async (req,res, next) => {
+    //findAll is to print all cakes
+   try{ const cakes = await Cake.findAll({
+    //to print specific things we use attributes x//{exclude:[]} is to print everything except
+        attributes : {exclude:["createdAt", "updatedAt"]},
+    });
     res.json(cakes);
+} catch(error){
+    next(error);
+}
 };
-
-exports.deleteCake = (req,res) => {
-    const { cakeId } = req.params;
-    const foundCake = cakes.find((cake)=> cake.id === +cakeId);
-
-    if(foundCake){ 
-        cakes = cakes.filter((cake)=> cake.id !== +cakeId);
-        res.status(204).end();
+exports.deleteCake = async (req,res, next) => {
+   try{ 
+    await req.cake.destroy();
+    res.status(204).end();   
+    }catch(error){
+    next(error);
     }
-    else{
-        res.status(404).json({message : "cake not found"});
-    }
-    
-   
-    
 };
-
-exports.createCake = (req,res) => {
-    const id = cakes.length +1;
-    const slug = slugify(req.body.name, {lower : true});
-    const newCake = {
-        id,
-        slug,
-        ...req.body,
-    };
-    cakes.push(newCake);
+exports.createCake = async (req,res, next) => {
+   try{
+       const newCake = await Cake.create(req.body);
     res.status(201).json(newCake);
+}catch(error){
+    next(error);
+}};
 
-};
-
-exports.updateCake = (req, res) => {
-    const { cakeId } = req.params;
-    const foundCake = cakes.find((cake) => cake.id === +cakeId);
-   
-    if (foundCake) {
-      for (const key in req.body) foundCake[key] = req.body[key];
-      foundCake.slug = slugify(foundCake.name, { lower: true });
-      res.status(204).end();
-    } else {
-      res.status(404).json({ message: "Cake Not Found." });
-    }
-  };
+exports.updateCake = async (req, res, next) => {
+   try{ 
+       await req.cake.update(req.body);
+       res.status(204).end();
+    }catch(error){
+        next(error);
+    }};
