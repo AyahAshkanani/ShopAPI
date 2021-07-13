@@ -4,6 +4,9 @@ const cors = require("cors"); // yarn add cors
 const bodyParser = require("body-parser");
 const cakeRoutes = require("./API/cake/routes");
 const bakeryRoutes = require("./API/bakery/routes");
+const userRoutes = require("./API/user/routes");
+const passport = require("passport");
+const {localStrategy} = require("./middleware/passport");
 
 
 //database
@@ -13,12 +16,12 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-
-
-
+app.use(passport.initialize());
+passport.use(localStrategy);
 //=============== Cookie Routes ===============\\
-app.use("/cakes", cakeRoutes);
+app.use("/cakes", cakeRoutes); 
 app.use("/bakeries", bakeryRoutes);
+app.use(userRoutes);
 //to be able to access media and show the photos
 app.use("/media",express.static("media"));
 
