@@ -38,4 +38,14 @@ db.Sequelize = Sequelize;
 db.Bakery.hasMany(db.Cake, {foreignKey : "bakeryId",  as: "cakes", aloowNull: false}); //many to one relation with Cake
 
 db.Cake.belongsTo(db.Bakery, {foreignKey : "bakeryId", as: "bakery"});
+
+
+db.User.hasOne(db.Bakery, {
+  as : "bakery",
+  foreignKey:"userId"
+});
+db.Bakery.belongsTo(db.User, { as: "user"});
+
+
+
 module.exports = db;
