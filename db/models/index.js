@@ -36,15 +36,33 @@ db.Sequelize = Sequelize;
 
 //MODEL RELATIONSHIPS
 db.Bakery.hasMany(db.Cake, {foreignKey : "bakeryId",  as: "cakes", aloowNull: false}); //many to one relation with Cake
-
 db.Cake.belongsTo(db.Bakery, {foreignKey : "bakeryId", as: "bakery"});
-
 
 db.User.hasOne(db.Bakery, {
   as : "bakery",
   foreignKey:"userId"
 });
 db.Bakery.belongsTo(db.User, { as: "user"});
+
+
+
+
+db.User.hasMany(db.Order, {foreignKey : "userId", as : "orders"});
+db.Order.belongsTo(db.User, {as: "user"});
+
+
+db.Order.belongsToMany(db.Cake, {
+  through: db.OrderItem,
+  foreignKey: "orderId",
+});
+db.Cake.belongsToMany(db.Order, {
+  through: db.OrderItem,
+  foreignKey: "cakeId",
+});
+
+
+
+
 
 
 

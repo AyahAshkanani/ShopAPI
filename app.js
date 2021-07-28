@@ -2,9 +2,14 @@
 const express = require("express");
 const cors = require("cors"); // yarn add cors
 const bodyParser = require("body-parser");
+
+//routes
 const cakeRoutes = require("./API/cake/routes");
 const bakeryRoutes = require("./API/bakery/routes");
 const userRoutes = require("./API/user/routes");
+const orderRoutes = require("./API/order/routes");
+
+//passports
 const passport = require("passport");
 const {localStrategy} = require("./middleware/passport");
 const {jwtStrategy} = require("./middleware/passport");
@@ -20,10 +25,15 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 passport.use(localStrategy);
 passport.use(jwtStrategy);
-//=============== Cookie Routes ===============\\
+
+//=============== Cake Routes ===============\\
 app.use("/cakes", cakeRoutes); 
 app.use("/bakeries", bakeryRoutes);
+app.use(orderRoutes);
 app.use(userRoutes);
+
+
+
 //to be able to access media and show the photos
 app.use("/media",express.static("media"));
 
